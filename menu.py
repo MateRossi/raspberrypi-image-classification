@@ -1,6 +1,9 @@
-#import variasFotos as f
+import variasFotos as f
 import redeNeural as rn
 import classificar as cl
+
+CAMINHO_IMGS = "C:/Users/PET/Documents/GitHub/raspberrypi-image-classification/img/"
+CAMINHO_NOVA_IMG = "C:/Users/PET/Documents/GitHub/raspberrypi-image-classification/img_testes/"
 
 #TEMPO DE PREVIEW (PARA AJUSTAR O DE ACORDO COM A CÂMERA)
 #f.preview_camera(30)
@@ -22,47 +25,8 @@ import classificar as cl
 
 #print(cl.classificar(model, f.extrair_features("/home/pi/Documents/ProjetoMoinho/img_testes/teste1.jpg")))
 
-
-def case_1(segundos):
-    #f.preview_camera(segundos)
-    print("case 1", segundos)
-
-def case_2(quantidade, pausa, nome):
-    #f.obter_fotos(quantidade, pausa, nome)
-    print("case 2 ", nome)
-
-#retorna a matriz
-def case_3(identificador):
-    #return f.montar_matriz(identificador)
-    print("case 3")
-
-#retorna o modelo
-def case_4(dataFrame):
-    return rn.treinar(dataFrame)
-
-#retorna o resultado da classificação
-def case_5(model, caminho_img):
-    return cl.classificar(model, f.extrair_features(caminho_img))
-
-def default():
-    print("Escolha uma opção válida.")
-
-switcher = {
-    1: case_1,
-    2: case_2,
-    3: case_3,
-    4: case_4,
-    5: case_5,
-    6: default
-}
-
-def switch(case):
-    return switcher.get(case, default)()
-
-
-dataFrame = 0
-modelo = 0
-
+df = None
+model = None
 
 # Solicita ao usuário a escolha de ação
 while True:    
@@ -83,23 +47,27 @@ while True:
         break
     elif opcao == 1:
         segundos = int(input("Tempo da preview: "))
-        switcher[1](segundos)
     elif opcao == 2:
         quantidade = int(input("Quantidade de fotos: "))
         pausa = float(input("Pausa entre fotos (segundos): "))
         nome = input("Nome do arquivo: ")
-        switcher[2](quantidade, pausa, nome)
+        #f.obter_fotos(quantidade, pausa, nome)
+        print("Quantidade de fotos: ", quantidade, ". Pausa entre fotos: ", pausa, ". Nome das imagens: ", nome)
     elif opcao == 3:
         identificador = input("Identificador: ")
-        dataframe = switcher[3](identificador)
+        dataframe = f.montar_matriz(identificador)
+        df = dataframe
+        print("Montar matriz com o identificador do grupo desejado: ", identificador)
     elif opcao == 4:
-        modelo = switcher[4](dataFrame)
+        modelo = rn.treinar(df)
+        model = modelo
+        print("Modelo de classificação: ", model)
     elif opcao == 5:
-        caminho_img = input("Caminho da imagem: ")
-        resultado_classificação = switcher[5](modelo, caminho_img)
+        nome_img = input("Nome da imagem: ")
+        resultado_classificação = cl.classificar(modelo, f.extrair_features(CAMINHO_NOVA_IMG + nome_img + ".jpg"))
         print("Imagem classificada como: ", resultado_classificação)
     else:
-        switcher[6]
+        print("Escolha uma opção válida!")
 
 
     
