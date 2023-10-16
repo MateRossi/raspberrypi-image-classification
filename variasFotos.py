@@ -1,4 +1,4 @@
-#from picamera import PiCamera
+from picamera import PiCamera
 from time import sleep
 import os
 import glob
@@ -8,26 +8,28 @@ import numpy as np
 import pandas as pd
 import re
 
-#camera = PiCamera ()
-#camera.framerate = 24
+camera = PiCamera ()
+camera.framerate = 24
 
-CAMINHO = "/home/pi/Documents/ProjetoMoinho/img/"
+CAMINHO = "/home/pi/raspberrypi-image-classification/img/"
+CAMINHO_CLASSIFICACAO = "//home/pi/raspberrypi-image-classification/img_testes/"
+
 caminhos = sorted(glob.glob(os.path.join(os.getcwd(),'img','*.jpg')))
 
 def obter_fotos(numFotos, pausaEntreFotos, nomeBase):
-    #camera.start_preview (fullscreen=False, window=(50,5, 840, 680))
+    camera.start_preview (fullscreen=False, window=(50,5, 840, 680))
     sleep(5)
     for i in range (numFotos):
-        #camera.capture (CAMINHO + nomeBase + str(i) + '.jpg')
+        camera.capture (CAMINHO + nomeBase + str(i) + '.jpg')
         sleep(pausaEntreFotos)
-    #camera.stop_preview ()
+    camera.stop_preview ()
 
 def preview_camera(tempo):
-    #camera.start_preview (fullscreen=False, window=(50,5, 840, 680))
+    camera.start_preview (fullscreen=False, window=(50,5, 840, 680))
     sleep(tempo)
-    #camera.stop_preview()
+    camera.stop_preview()
 
-#print(caminhos)
+print(caminhos)
 
 def montar_matriz(img_name):
     vetor = []
@@ -40,7 +42,7 @@ def montar_matriz(img_name):
         #binarizar a imagem
         limiar, imglimiar = cv2.threshold(image, 50,255,cv2.THRESH_BINARY_INV)
 
-        # extração de features: huMoments
+        # extracao de features: huMoments
         moments = cv2.moments(imglimiar)
         huMoments = cv2.HuMoments(moments)
 
@@ -64,7 +66,7 @@ def extrair_features(img):
     #binarizar a imagem
     limiar, imglimiar = cv2.threshold(image, 50,255,cv2.THRESH_BINARY_INV)
 
-    # extração de features: huMoments
+    # extracao de features: huMoments
     moments = cv2.moments(imglimiar)
     huMoments = cv2.HuMoments(moments)
 
@@ -74,3 +76,7 @@ def extrair_features(img):
 
     vetor.extend(data)  # Use extend to add individual elements to the list
     return np.array(vetor).ravel()
+
+def obter_foto(nome):
+    camera.capture (CAMINHO_CLASSIFICACAO + nome + '.jpg')
+    return CAMINHO_CLASSIFICACAO + nome + '.jpg'

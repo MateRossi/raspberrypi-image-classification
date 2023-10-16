@@ -1,11 +1,13 @@
+# coding=utf-8
+
 import variasFotos as f
 import redeNeural as rn
 import classificar as cl
 
-CAMINHO_IMGS = "C:/Users/PET/Documents/GitHub/raspberrypi-image-classification/img/"
-CAMINHO_NOVA_IMG = "C:/Users/PET/Documents/GitHub/raspberrypi-image-classification/img_testes/"
+CAMINHO_IMGS = "/home/pi/raspberrypi-image-classification/img/"
+CAMINHO_NOVA_IMG = "/home/pi/raspberrypi-image-classification/img_testes/"
 
-#TEMPO DE PREVIEW (PARA AJUSTAR O DE ACORDO COM A CÂMERA)
+#TEMPO DE PREVIEW (PARA AJUSTAR O DE ACORDO COM A CaMERA)
 #f.preview_camera(30)
 
 #NUM DE FOTOS, PAUSA ENTRE FOTOS (SEGUNDOS), NOME BASE (NOME + 1, nOME +2, ETC). 
@@ -33,39 +35,37 @@ while True:
     print("Escolha uma opção:")
     print("1 - Preview da Câmera")
     print("2 - Obter Fotos de Treinamento")
-    print("3 - Montar Matriz")
-    print("4 - Treinar o Modelo de Classificação")
-    print("5 - Classificar uma foto")
+    print("3 - Treinar o Modelo de Classificação")
+    print("4 - Classificar uma foto")
     print("0 - Sair")
 
     opcao = int(input("Opção: "))
 
-    resultado_classificação = "Não realizado."
+    resultado_classificacao = "Não realizado."
 
     # Executa a ação correspondente
     if opcao == 0:
         break
     elif opcao == 1:
         segundos = int(input("Tempo da preview: "))
+        f.preview_camera(segundos)
     elif opcao == 2:
         quantidade = int(input("Quantidade de fotos: "))
         pausa = float(input("Pausa entre fotos (segundos): "))
         nome = input("Nome do arquivo: ")
-        #f.obter_fotos(quantidade, pausa, nome)
+        f.obter_fotos(quantidade, pausa, nome)
         print("Quantidade de fotos: ", quantidade, ". Pausa entre fotos: ", pausa, ". Nome das imagens: ", nome)
     elif opcao == 3:
-        identificador = input("Identificador: ")
+        identificador = input("Identificador do grupo desejado: ")
         dataframe = f.montar_matriz(identificador)
         df = dataframe
-        print("Montar matriz com o identificador do grupo desejado: ", identificador)
-    elif opcao == 4:
         modelo = rn.treinar(df)
         model = modelo
         print("Modelo de classificação: ", model)
-    elif opcao == 5:
-        nome_img = input("Nome da imagem: ")
-        resultado_classificação = cl.classificar(modelo, f.extrair_features(CAMINHO_NOVA_IMG + nome_img + ".jpg"))
-        print("Imagem classificada como: ", resultado_classificação)
+    elif opcao == 4:
+        caminho_img = f.obter_foto('img_teste')
+        resultado_classificacao = cl.classificar(modelo, f.extrair_features(caminho_img))
+        print("Imagem classificada como: ", resultado_classificacao)
     else:
         print("Escolha uma opção válida!")
 
