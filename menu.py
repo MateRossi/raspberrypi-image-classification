@@ -56,7 +56,7 @@ while True:
         f.obter_fotos(quantidade, pausa, nome)
         print("Quantidade de fotos: ", quantidade, ". Pausa entre fotos: ", pausa, ". Nome das imagens: ", nome)
     elif opcao == 3:
-        identificador = input("Identificador do grupo desejado: ")
+        identificador = input("Identificador do grupo desejado (nome base das fotos que se procura): ")
         dataframe = f.montar_matriz(identificador)
         df = dataframe
         modelo = rn.treinar(df)

@@ -28,7 +28,7 @@ def treinar(df):
     #print(Y_test)
     #print(Y_train)
 
-    model = MLPClassifier(random_state=0, max_iter=1000, activation='relu', hidden_layer_sizes=(10), solver='lbfgs')
+    model = MLPClassifier(random_state=0, max_iter=10000, activation='tanh', hidden_layer_sizes=(8), solver='lbfgs')
     #print(X_train)
     #print(Y_train)
     #print(model)

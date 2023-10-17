@@ -29,7 +29,7 @@ def preview_camera(tempo):
     sleep(tempo)
     camera.stop_preview()
 
-print(caminhos)
+#print(caminhos)
 
 def montar_matriz(img_name):
     vetor = []
@@ -40,7 +40,7 @@ def montar_matriz(img_name):
         image = cv2.imread(img,  cv2.IMREAD_GRAYSCALE)
 
         #binarizar a imagem
-        limiar, imglimiar = cv2.threshold(image, 50,255,cv2.THRESH_BINARY_INV)
+        limiar, imglimiar = cv2.threshold(image, 117,255,cv2.THRESH_BINARY_INV)
 
         # extracao de features: huMoments
         moments = cv2.moments(imglimiar)
@@ -64,7 +64,7 @@ def extrair_features(img):
     #ler a imagem
     image = cv2.imread(img,  cv2.IMREAD_GRAYSCALE)
     #binarizar a imagem
-    limiar, imglimiar = cv2.threshold(image, 50,255,cv2.THRESH_BINARY_INV)
+    limiar, imglimiar = cv2.threshold(image, 117,255,cv2.THRESH_BINARY_INV)
 
     # extracao de features: huMoments
     moments = cv2.moments(imglimiar)
