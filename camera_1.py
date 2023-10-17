@@ -12,7 +12,7 @@ CAMINHO = "/home/pi/Documents/ProjetoMoinho/img/"
 
 name = "imagem"
 
-#input("Para iniciar a câmera, pressione ENTER.")
+input("Para iniciar a câmera, pressione ENTER.")
 camera.start_preview (fullscreen=False, window=(50,5, 840, 680))
 input("Pressione qualquer enter para tirar a foto.")
 camera.capture (CAMINHO + name + '.jpg')
@@ -20,19 +20,33 @@ camera.stop_preview ()
 
 # carrega a imagem original.
 imgOriginal = cv2.imread(CAMINHO + name + ".jpg")
-imc = cv2.cvtColor(imgOriginal, cv2.COLOR_BGR2RGB)
-#plt.imshow(imc)
-#plt.show()
 
 # carrega a imagem em tons de cinza.
 imgCinza = cv2.imread(CAMINHO + name + ".jpg", cv2.IMREAD_GRAYSCALE)
 
 # cria uma figura com uma grade 2x2 de subplots
-#fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+fig, axs = plt.subplots(1, 2, figsize=(10, 5))
 
-#binarizar a imagem
-limiar, imglimiar = cv2.threshold(imgCinza, 117,255,cv2.THRESH_BINARY_INV)
-plt.imshow(imglimiar, cmap="gray")
+# exibe as imagens nos subplots
+axs[0].imshow(cv2.cvtColor(imgOriginal, cv2.COLOR_BGR2RGB))
+axs[0].set_title("Imagem Original")
+
+axs[1].imshow(imgCinza, cmap='gray')
+axs[1].set_title("Imagem Em Tons de Cinza")
+
+# Ajusta a disposição dos subplots para evitar sobreposições
+plt.tight_layout()
+
+# exibe a figura com os subplots
+plt.show(block='false')
+
+# início do cálculo do histograma na imagem em tons de cinza
+hist = cv2.calcHist([imgCinza],[0],None,[256],[0,255])
+
+plt.hist(imgCinza.ravel(),256,[0,256])
+plt.plot(hist)
+plt.title("Histograma da foto em tons de cinza.")
+
 plt.show()
 
 
