@@ -59,11 +59,14 @@ while True:
         identificador = input("Identificador do grupo desejado (nome base das fotos que se procura): ")
         dataframe = f.montar_matriz(identificador)
         df = dataframe
+        print(df)
         modelo = rn.treinar(df)
         model = modelo
         print("Modelo de classificação: ", model)
     elif opcao == 4:
-        caminho_img = f.obter_foto('img_teste')
+        caminho_img = "C:/Users/mateu/OneDrive/Documentos/raspberrypi-image-classification/img_testes/img_teste.jpg" 
+        #caminho_img = f.obter_foto('img_teste')]
+        #f.extrair_features(caminho_img)
         resultado_classificacao = cl.classificar(modelo, f.extrair_features(caminho_img))
         print("Imagem classificada como: ", resultado_classificacao)
     else:

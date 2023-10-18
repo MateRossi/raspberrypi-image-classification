@@ -8,8 +8,8 @@ def treinar(df):
     dfNew = df.values
     
     #dados
-    X = dfNew[0:,0:7]
-    Y = dfNew[0:,7]
+    X = dfNew[:, :-1]
+    Y = dfNew[:, -1]
 
     print(X.shape)
     print(Y.shape)
