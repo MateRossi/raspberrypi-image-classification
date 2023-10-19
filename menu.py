@@ -3,6 +3,7 @@
 import variasFotos as f
 import redeNeural as rn
 import classificar as cl
+import testeHOG as HOG
 
 CAMINHO_IMGS = "/home/pi/raspberrypi-image-classification/img/"
 CAMINHO_NOVA_IMG = "/home/pi/raspberrypi-image-classification/img_testes/"
@@ -37,6 +38,7 @@ while True:
     print("2 - Obter Fotos de Treinamento")
     print("3 - Treinar o Modelo de Classificação")
     print("4 - Classificar uma foto")
+    print("5 - Mostrar HOG")
     print("0 - Sair")
 
     opcao = int(input("Opção: "))
@@ -64,11 +66,15 @@ while True:
         model = modelo
         print("Modelo de classificação: ", model)
     elif opcao == 4:
-        caminho_img = "C:/Users/mateu/OneDrive/Documentos/raspberrypi-image-classification/img_testes/img_teste.jpg" 
-        #caminho_img = f.obter_foto('img_teste')]
+        caminho_img = "C:/Users/PET/Documents/GitHub/raspberrypi-image-classification/img_testes/"
+        nome_foto = input("Qual o nome da foto que se deseja classificar? ")
+        #caminho_img = f.obter_foto('img_teste')
         #f.extrair_features(caminho_img)
-        resultado_classificacao = cl.classificar(modelo, f.extrair_features(caminho_img))
+        resultado_classificacao = cl.classificar(modelo, f.extrair_features(caminho_img + nome_foto + '.jpg'))
         print("Imagem classificada como: ", resultado_classificacao)
+    elif opcao == 5:
+        nome_foto = input("Qual o nome da foto que se deseja visualizar? ")
+        HOG.mostrar_hog(nome_foto)
     else:
         print("Escolha uma opção válida!")
 
